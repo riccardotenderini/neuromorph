@@ -99,9 +99,9 @@ def create_dataset(
     return dataset
 
 
-def start_train(dataset, dataset_val=None, folder_weights_load=None):
+def start_train(dataset, dataset_val=None, folder_weights_load=None, param=None):
     interpol = create_interpol(
-        dataset, dataset_val=dataset_val, folder_weights_load=folder_weights_load
+        dataset, dataset_val=dataset_val, folder_weights_load=folder_weights_load, param=param
     )
 
     interpol.train()
@@ -113,24 +113,53 @@ def train_main():
     hyp_param = HypParam()
 
     # FAUST_remeshed:
+    # dataset = create_dataset(
+    #     Faust_remeshed_train,
+    #     2000,
+    #     None,
+    #     hyp_param.load_dist_mat,
+    #     remesh_individual,
+    #     hyp_param.load_sub,
+    # )
+    # dataset_val = create_dataset(
+    #     Faust_remeshed_test,
+    #     2000,
+    #     None,
+    #     hyp_param.load_dist_mat,
+    #     remesh_individual,
+    #     hyp_param.load_sub,
+    # )
+
     dataset = create_dataset(
-        Faust_remeshed_train,
-        2000,
+        Aortas_train,
+        5000,
         None,
         hyp_param.load_dist_mat,
         remesh_individual,
         hyp_param.load_sub,
     )
     dataset_val = create_dataset(
-        Faust_remeshed_test,
-        2000,
+        Aortas_test,
+        5000,
         None,
         hyp_param.load_dist_mat,
         remesh_individual,
         hyp_param.load_sub,
     )
 
-    start_train(dataset, dataset_val)
+    param_dict = {'lr': 1e-4,
+                  'num_it': 300,
+                  'batch_size': 16,
+                  'hidden_dim': 128,
+                  'num_timesteps': 0,
+                  'lambd': 1,
+                  'lambd_geo': 50,
+                  'log_freq': 10,
+                  'val_freq': 10}
+    param = NetParam()
+    param.set_params(**param_dict)
+
+    start_train(dataset, dataset_val, param=param)
 
 
 if __name__ == "__main__":

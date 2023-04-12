@@ -13,13 +13,22 @@ path_curr = str(pathlib.Path(__file__).parent.absolute())
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 device_cpu = torch.device('cpu')
 
-data_folder_faust_remeshed = "data/meshes/FAUST_r/mat"
-data_folder_mano_right = "data/meshes/MANO_right/mat"
-data_folder_mano_test = "data/meshes/MANO_test/mat"
-data_folder_shrec20 = "data/meshes/SHREC_r/mat"
+data_folder = os.path.join(os.getcwd(), "data")
+meshes_folder = os.path.join(data_folder, "meshes")
 
-chkpt_folder = "data/checkpoint"
-data_folder_out = "data/out"
+data_folder_faust_remeshed = os.path.join(meshes_folder, "FAUST_r", "mat")
+data_folder_mano_right = os.path.join(meshes_folder, "MANO_right", "mat")
+data_folder_mano_test = os.path.join(meshes_folder, "MANO_test", "mat")
+data_folder_shrec20 = os.path.join(meshes_folder, "SHREC_r", "mat")
+data_folder_aortas_train = os.path.join(meshes_folder, "aortas_train", "mat")
+data_folder_aortas_test = os.path.join(meshes_folder, "aortas_test", "mat")
+
+chkpt_folder = os.path.join(data_folder, "checkpoint")
+if not os.path.isdir(chkpt_folder):
+    os.makedirs(chkpt_folder)
+data_folder_out = os.path.join(data_folder, "out")
+if not os.path.isdir(data_folder_out):
+    os.makedirs(data_folder_out)
 
 
 def get_timestr():

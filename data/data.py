@@ -224,10 +224,21 @@ def get_shrec20_folder(resolution):
     return folder_path
 
 
+def get_aortas_folder(resolution, test=False):
+    data_folder_cur = data_folder_aortas_train if not test else data_folder_aortas_test
+
+    if resolution is None:
+        folder_path = os.path.join(data_folder_cur, "full")
+    else:
+        folder_path = os.path.join(data_folder_cur, "sub_" + str(resolution))
+    return folder_path
+
+
 class Faust_remeshed_train(ShapeDatasetCombine):
     def __init__(self, resolution, num_shapes=80, load_dist_mat=False, load_sub=False):
         self.resolution = resolution
-        super().__init__(get_faust_remeshed_folder(resolution), num_shapes, load_dist_mat=load_dist_mat, load_sub=load_sub)
+        super().__init__(get_faust_remeshed_folder(resolution), num_shapes,
+                         load_dist_mat=load_dist_mat, load_sub=load_sub)
 
     def dataset_name_str(self):
         return "FAUST_remeshed_" + str(self.resolution) + "_train"
@@ -236,7 +247,8 @@ class Faust_remeshed_train(ShapeDatasetCombine):
 class Faust_remeshed_test(ShapeDatasetCombine):
     def __init__(self, resolution, num_shapes=20, load_dist_mat=False, load_sub=False):
         self.resolution = resolution
-        super().__init__(get_faust_remeshed_folder(resolution), num_shapes, load_dist_mat=load_dist_mat, load_sub=load_sub)
+        super().__init__(get_faust_remeshed_folder(resolution), num_shapes,
+                         load_dist_mat=load_dist_mat, load_sub=load_sub)
 
     def _get_index(self, i):
         return i+80
@@ -247,7 +259,8 @@ class Faust_remeshed_test(ShapeDatasetCombine):
 
 class Mano_train(ShapeDatasetCombine):
     def __init__(self, resolution=None, num_shapes=100, load_dist_mat=False, load_sub=False):
-        super().__init__(data_folder_mano_right, num_shapes, axis=2, load_dist_mat=load_dist_mat, load_sub=load_sub)
+        super().__init__(data_folder_mano_right, num_shapes, axis=2,
+                         load_dist_mat=load_dist_mat, load_sub=load_sub)
 
     def dataset_name_str(self):
         return "Mano_train"
@@ -255,7 +268,8 @@ class Mano_train(ShapeDatasetCombine):
 
 class Mano_test(ShapeDatasetCombine):
     def __init__(self, resolution=None, num_shapes=20, load_dist_mat=False, load_sub=False):
-        super().__init__(data_folder_mano_test, num_shapes, axis=2, load_dist_mat=load_dist_mat, load_sub=load_sub)
+        super().__init__(data_folder_mano_test, num_shapes, axis=2,
+                         load_dist_mat=load_dist_mat, load_sub=load_sub)
 
     def dataset_name_str(self):
         return "Mano_test"
@@ -264,11 +278,31 @@ class Mano_test(ShapeDatasetCombine):
 class Shrec20_full(ShapeDatasetCombine):
     def __init__(self, resolution, num_shapes=14, load_dist_mat=False, load_sub=False):
         self.resolution = resolution
-        super().__init__(get_shrec20_folder(resolution), num_shapes, load_dist_mat=load_dist_mat, load_sub=load_sub)
+        super().__init__(get_shrec20_folder(resolution), num_shapes,
+                         load_dist_mat=load_dist_mat, load_sub=load_sub)
 
     def dataset_name_str(self):
         return "Shrec20_" + str(self.resolution) + "_train"
 
+
+class Aortas_train(ShapeDatasetCombine):
+    def __init__(self, resolution, num_shapes=153, load_dist_mat=False, load_sub=False):
+        self.resolution = resolution
+        super().__init__(get_aortas_folder(resolution, test=False), num_shapes,
+                         load_dist_mat=load_dist_mat, load_sub=load_sub)
+
+    def dataset_name_str(self):
+        return "Aortas_" + str(self.resolution) + "_train"
+
+
+class Aortas_test(ShapeDatasetCombine):
+    def __init__(self, resolution, num_shapes=102, load_dist_mat=False, load_sub=False):
+        self.resolution = resolution
+        super().__init__(get_aortas_folder(resolution, test=True), num_shapes,
+                         load_dist_mat=load_dist_mat, load_sub=load_sub)
+
+    def dataset_name_str(self):
+        return "Aortas_" + str(self.resolution) + "_test"
 
 
 if __name__ == "__main__":

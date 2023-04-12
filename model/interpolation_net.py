@@ -27,6 +27,18 @@ class NetParam(ParamBase):
 
         self.log = True
 
+    def set_params(self, lr=1e-4, num_it=600, batch_size=16, num_timesteps=0, hidden_dim=128,
+                   lambd=1, lambd_geo=50, log_freq=10, val_freq=10):
+        self.lr = lr
+        self.num_it = num_it
+        self.batch_size = batch_size
+        self.num_timesteps = num_timesteps
+        self.hidden_dim = hidden_dim
+        self.lambd = lambd
+        self.lambd_geo = lambd_geo
+        self.log_freq = log_freq
+        self.val_freq = val_freq
+
 
 class InterpolationModBase(torch.nn.Module):
     def __init__(self, interp_energy: InterpolationEnergy):

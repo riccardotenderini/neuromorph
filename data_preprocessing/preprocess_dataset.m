@@ -12,7 +12,7 @@ function preprocess_dataset(dataset_path, shape_file_extension, resolution_sub)
     end
 
     if ~exist("resolution_sub", "var")
-        resolution_sub = 2000;
+        resolution_sub = 5000;
     end
 
     disp("Converting the shape files to .mat files...")
