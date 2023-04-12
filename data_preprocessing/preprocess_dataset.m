@@ -7,8 +7,13 @@ function preprocess_dataset(dataset_path, shape_file_extension, resolution_sub)
 
     addpath(genpath(fileparts(mfilename('fullpath'))));
 
+    if ischar(dataset_path)
+        dataset_path = convertCharsToStrings(dataset_path)
+
     if ~exist("shape_file_extension", "var")
         shape_file_extension = ".obj";
+    elseif ischar(shape_file_extension)
+        shape_file_extension = convertCharsToStrings(shape_file_extension)
     end
 
     if ~exist("resolution_sub", "var")
