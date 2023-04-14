@@ -14,10 +14,12 @@ function folder_out = reduce_folder_individual(shapes_dir, num_vert_reduced)
 
         file_curr = fullfile(shapes_dir, files(i).name);
         [~, name, ~] = fileparts(file_curr);
+        if strcmp(name, 'filenames_corrs'); continue; end
 
         red_file = fullfile(folder_out, string(name) + ".mat");
         if exist(red_file, 'file'); continue; end
 
+        fprintf(name)
         S = load(file_curr);
 
         refarea = 0.44;
