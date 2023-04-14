@@ -53,7 +53,7 @@ def create_interpol(
 
     settings_module = SettingsFaust(increase_thresh=hyp_param.increase_thresh)
 
-    preproc_mods.append(PreprocessRotateSame(dataset.axis))
+    # preproc_mods.append(PreprocessRotateSame(dataset.axis))  # avoid random rotation, images are already registered !
 
     interpol = InterpolNet(
         interpol_module,
@@ -110,6 +110,7 @@ def start_train(dataset, dataset_val=None, folder_weights_load=None, param=None)
 
 
 def train_main():
+    print("\nLaunching training", flush=True)
     hyp_param = HypParam()
 
     # FAUST_remeshed:
@@ -130,28 +131,30 @@ def train_main():
     #     hyp_param.load_sub,
     # )
 
+    print("\nLoading datasets", flush=True)
     dataset = create_dataset(
         Aortas_train,
-        5000,
-        None,
-        hyp_param.load_dist_mat,
-        remesh_individual,
-        hyp_param.load_sub,
+        2000,
+        num_shapes=13,  # if None, all shapes are loaded
+        load_dist_mat=hyp_param.load_dist_mat,
+        remeshing_fct=remesh_individual,
+        load_sub=hyp_param.load_sub,
     )
     dataset_val = create_dataset(
         Aortas_test,
-        5000,
-        None,
-        hyp_param.load_dist_mat,
-        remesh_individual,
-        hyp_param.load_sub,
+        2000,
+        num_shapes=2,  # if None, all shapes are loaded
+        load_dist_mat=hyp_param.load_dist_mat,
+        remeshing_fct=remesh_individual,
+        load_sub=hyp_param.load_sub,
     )
 
+    print("\nDefining model parameters", flush=True)
     param_dict = {'lr': 1e-4,
                   'num_it': 300,
                   'batch_size': 16,
                   'hidden_dim': 128,
-                  'num_timesteps': 0,
+                  'num_timesteps': 10,
                   'lambd': 1,
                   'lambd_geo': 50,
                   'log_freq': 10,
@@ -159,6 +162,7 @@ def train_main():
     param = NetParam()
     param.set_params(**param_dict)
 
+    print("\nStarting model training", flush=True)
     start_train(dataset, dataset_val, param=param)
 
 

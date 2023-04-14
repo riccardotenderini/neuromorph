@@ -88,6 +88,8 @@ class ShapeDatasetInMemory(ShapeDatasetBase):
 
             self.data.append(data_curr)
 
+            print("File loading complete", flush=True)
+
     def _get_file(self, i):
         return self._get_file_from_folder(i, self.folder_path)
 
@@ -143,7 +145,8 @@ class ShapeDatasetCombineRemesh(ShapeDatasetBase):
         self.triv_arr_arr = []
 
         for i in range(self.dataset.num_shapes):
-            remesh_file = self._get_file_from_folder(self.dataset._get_index(i), os.path.join(self.dataset.folder_path, self.remeshing_folder))
+            remesh_file = self._get_file_from_folder(self.dataset._get_index(i),
+                                                     os.path.join(self.dataset.folder_path, self.remeshing_folder))
             mesh_info = scipy.io.loadmat(remesh_file)
             idx_arr = mesh_info["idx_arr"]
             triv_arr = mesh_info["triv_arr"]
@@ -152,6 +155,8 @@ class ShapeDatasetCombineRemesh(ShapeDatasetBase):
 
             self.idx_arr_arr.append(idx_arr)
             self.triv_arr_arr.append(triv_arr)
+
+        print("File loading complete", flush=True)
 
     def __getitem__(self, index):
         data_curr = self.dataset[index]
@@ -286,7 +291,7 @@ class Shrec20_full(ShapeDatasetCombine):
 
 
 class Aortas_train(ShapeDatasetCombine):
-    def __init__(self, resolution, num_shapes=153, load_dist_mat=False, load_sub=False):
+    def __init__(self, resolution, num_shapes=13, load_dist_mat=False, load_sub=False):
         self.resolution = resolution
         super().__init__(get_aortas_folder(resolution, test=False), num_shapes,
                          load_dist_mat=load_dist_mat, load_sub=load_sub)
@@ -296,7 +301,7 @@ class Aortas_train(ShapeDatasetCombine):
 
 
 class Aortas_test(ShapeDatasetCombine):
-    def __init__(self, resolution, num_shapes=102, load_dist_mat=False, load_sub=False):
+    def __init__(self, resolution, num_shapes=2, load_dist_mat=False, load_sub=False):
         self.resolution = resolution
         super().__init__(get_aortas_folder(resolution, test=True), num_shapes,
                          load_dist_mat=load_dist_mat, load_sub=load_sub)

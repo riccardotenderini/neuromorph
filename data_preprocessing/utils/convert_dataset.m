@@ -9,6 +9,8 @@ function folder_out = convert_dataset(folder_in, shape_file_ext)
     folder_out = fullfile(folder_in, "mat/");
     if ~isfolder(folder_out); mkdir(folder_out); end
 
+    files_corrs = {};
+
     for i = 1:length(files)
 
         fprintf(" Processing %d of %d\n", i, length(files));
@@ -17,7 +19,9 @@ function folder_out = convert_dataset(folder_in, shape_file_ext)
         [~, ~, file_in_ext] = fileparts(file_in);
 
         file_out = fullfile(folder_out, "shape_" + string(num2str(i - 1, '%03d')) + ".mat");
-        if exist(file_out); continue; end
+        if exist(file_out, 'file'); continue; end
+
+        files_corrs{end+1} = [files(i).name, "shape_" + string(num2str(i - 1, '%03d')) + ".mat"];
 
         switch file_in_ext
             case '.off'
@@ -41,6 +45,7 @@ function folder_out = convert_dataset(folder_in, shape_file_ext)
         X.vert = X.vert ./ sqrt(sum(compute_triangle_areas(X))) .* sqrt(refarea);
 
         save(file_out, 'X');
+        save(fullfile(folder_out, "filenames_corrs.mat"), 'files_corrs');
 
     end
 

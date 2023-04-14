@@ -8,16 +8,17 @@ function preprocess_dataset(dataset_path, shape_file_extension, resolution_sub)
     addpath(genpath(fileparts(mfilename('fullpath'))));
 
     if ischar(dataset_path)
-        dataset_path = convertCharsToStrings(dataset_path)
+        dataset_path = convertCharsToStrings(dataset_path);
+    end
 
     if ~exist("shape_file_extension", "var")
         shape_file_extension = ".obj";
     elseif ischar(shape_file_extension)
-        shape_file_extension = convertCharsToStrings(shape_file_extension)
+        shape_file_extension = convertCharsToStrings(shape_file_extension);
     end
 
     if ~exist("resolution_sub", "var")
-        resolution_sub = 5000;
+        resolution_sub = 2000;
     end
 
     disp("Converting the shape files to .mat files...")

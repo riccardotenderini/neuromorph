@@ -79,7 +79,7 @@ class InterpolationModuleBase(torch.nn.Module):
 
 
 class InterpolationModuleMultiscaleBase(InterpolationModuleBase):
-    """Base class for multi-scale interpolation methods """
+    """Base class for multiscale interpolation methods """
 
     def __init__(self):
         super().__init__()

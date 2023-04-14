@@ -260,7 +260,8 @@ class InterpolNet:
                     tot_loss_comp[1],
                     tot_loss_comp[2],
                     torch.cuda.memory_reserved(0) // (1024 ** 2),
-                )
+                ),
+                flush=True
             )
 
             if self.time_stamp is not None:
