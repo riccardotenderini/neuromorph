@@ -4,3 +4,5 @@ data/checkpoint
 data/meshes
 data/out
 .idea/
+*.sh
+*.out
