@@ -152,7 +152,7 @@ def train_main():
     print("\nDefining model parameters", flush=True)
     param_dict = {'lr': 1e-4,
                   'num_it': 300,
-                  'batch_size': 16,
+                  'batch_size': 4,
                   'hidden_dim': 128,
                   'num_timesteps': 10,
                   'lambd': 1,

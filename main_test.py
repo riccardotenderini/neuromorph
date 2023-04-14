@@ -81,7 +81,7 @@ def save_seq_collection_hard_correspondences(
     if not os.path.isdir(os.path.join(data_folder_out, res_name, "corrs")):
         os.makedirs(os.path.join(data_folder_out, res_name, "corrs"), exist_ok=True)
 
-    print("Saving", len(points_out), "sequences in", os.path.join(data_folder_out, res_name), "...")
+    print("Saving", len(points_out), "sequences in", os.path.join(data_folder_out, res_name), "...", flush=True)
     for i in range(len(points_out)):
         vert_x = shape_x_out[i].vert.detach().cpu().numpy()
         vert_y = shape_y_out[i].vert.detach().cpu().numpy()
@@ -157,7 +157,7 @@ def run_test(time_stamp_chkpt=None):
 
     hyp_param = HypParam()
 
-    dataset_val = Faust_remeshed_test(2000)
+    dataset_val = Aortas_test(2000)
 
     hyp_param.rot_mod = 0
 
